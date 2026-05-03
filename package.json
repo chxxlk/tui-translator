@@ -1,0 +1,32 @@
+{
+  "name": "tui-translator",
+  "version": "2.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx index.tsx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chxxlk/tui-translator.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chxxlk/tui-translator/issues"
+  },
+  "homepage": "https://github.com/chxxlk/tui-translator#readme",
+  "dependencies": {
+    "ink": "^7.0.1",
+    "ink-text-input": "^6.0.0",
+    "react": "^19.2.5"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}
