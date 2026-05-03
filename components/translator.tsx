@@ -33,9 +33,10 @@ export default function Translator() {
       // console.error("RAW_ERROR:", err);
       // setResult(getErrorMessage(err.message));
       if (err instanceof Error) {
-        setResult(getErrorMessage(err.message));
-        console.error("RAW_ERROR: ", err);
+        const code = err.name || "UNKNOWN";
+        setResult(getErrorMessage(code));
       } else {
+        console.error("RAW_ERROR: ", err);
         setResult("Unknown Error");
       }
     } finally {

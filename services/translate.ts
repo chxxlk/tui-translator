@@ -2,9 +2,11 @@ import { getErrorMessage } from "../types/errors";
 
 export async function translateToEnglish(text: string): Promise<string> {
 
-  if (!text.trim()) {
-    throw new Error(getErrorMessage("EMPTY_INPUT"));
-  }
+if (!text.trim()) {
+      const err = new Error(getErrorMessage("EMPTY_INPUT"));
+      err.name = "EMPTY_INPUT";
+      throw err;
+    }
 
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 500);
@@ -25,21 +27,32 @@ export async function translateToEnglish(text: string): Promise<string> {
     });
 
     if (!res.ok) {
-      throw new Error(getErrorMessage("BAD_RESPONSE"));
+      const err = new Error(getErrorMessage("BAD_RESPONSE"));
+      err.name = "BAD_RESPONSE";
+      throw err;
     };
 
     const data = await res.json();
 
     if (!data.translatedText) {
-      throw new Error(getErrorMessage("INVALID_PAYLOAD"));
+      const err = new Error(getErrorMessage("INVALID_PAYLOAD"));
+      err.name = "INVALID_PAYLOAD";
+      throw err;
     };
 
     return data.translatedText;
   } catch (err: unknown) {
     if (err instanceof Error) {
-      throw new Error(getErrorMessage("TIMEOUT"));
+      if (err.name === "AbortError") {
+        const timeoutErr = new Error(getErrorMessage("TIMEOUT"));
+        timeoutErr.name = "TIMEOUT";
+        throw timeoutErr;
+      }
+      throw err;
     }
-    throw new Error("SERVICE_ERROR");
+    const serviceErr = new Error(getErrorMessage("SERVICE_ERROR"));
+    serviceErr.name = "SERVICE_ERROR";
+    throw serviceErr;
   } finally {
     clearTimeout(timeout);
   }
