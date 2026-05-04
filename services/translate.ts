@@ -1,15 +1,15 @@
 import { getErrorMessage } from "../types/errors";
 
-export async function translateToEnglish(text: string): Promise<string> {
+export async function translate(text: string, target: string): Promise<string> {
 
-if (!text.trim()) {
-      const err = new Error(getErrorMessage("EMPTY_INPUT"));
-      err.name = "EMPTY_INPUT";
-      throw err;
-    }
+  if (!text.trim()) {
+    const err = new Error(getErrorMessage("EMPTY_INPUT"));
+    err.name = "EMPTY_INPUT";
+    throw err;
+  }
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 500);
+  const timeout = setTimeout(() => controller.abort(), 10000);
 
   try {
     const res = await fetch("http://localhost:5000/translate", {
@@ -20,8 +20,8 @@ if (!text.trim()) {
       signal: controller.signal,
       body: JSON.stringify({
         q: text,
-        source: "id",
-        target: "en",
+        source: "auto",
+        target,
         format: "text",
       }),
     });
